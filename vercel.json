@@ -1,4 +1,5 @@
 {
+  "installCommand": "echo 'static site: nothing to install'",
   "buildCommand": "",
   "outputDirectory": ".",
   "rewrites": [
