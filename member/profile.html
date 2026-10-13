@@ -348,6 +348,7 @@ async function saveProfile(e) {
   const confPwd  = document.getElementById('edit-password-confirm').value;
 
   if (!fullName) { Toast.error('Full name is required.'); return; }
+  if (newPwd && (currentProfile?.email || '').endsWith('@kanisahub.demo')) { Toast.error('Password za akaunti za demo haziwezi kubadilishwa.'); return; }
   if (newPwd && newPwd !== confPwd) { Toast.error('Passwords do not match.'); return; }
   if (newPwd && newPwd.length < 6) { Toast.error('Password must be at least 6 characters.'); return; }
 
