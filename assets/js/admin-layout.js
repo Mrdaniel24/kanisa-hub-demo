@@ -128,34 +128,68 @@
   }).observe(img, { attributes: true, attributeFilter: ['src'] });
   img.addEventListener('error', () => { img.hidden = true; });
 
-  /* ── Tables → two-up cards on phones ──
-     Each <td> gets data-label from its column header so the CSS can show
-     "DEPARTMENT / Kwaya Kuu" pairs once the header row is hidden. Rows are
-     rendered by page scripts after data loads, so re-label on changes. */
-  const labelTables = () => {
-    document.querySelectorAll('main table').forEach(table => {
+  /* ── Phone layout hooks ──
+     admin-theme.css lays these out two per row on phones. Deciding which
+     elements qualify is done here, once per content change, because doing it
+     in CSS with :has() made every DOM update re-check the whole page.
+     Page scripts render rows/cards after data loads, so re-run on changes. */
+  const addClass = (el, cls) => { if (!el.classList.contains(cls)) el.classList.add(cls); };
+  const hasPadding = el => /(^|\s)p-\d/.test(el.className) || /(^|\s)p-\[/.test(el.className);
+  const CARD_GRID = /(^|\s)((sm|md):grid-cols-[234]|(lg|xl):grid-cols-[34])(\s|$)/;
+
+  const decorate = () => {
+    const main = document.querySelector('main');
+    if (!main) return;
+
+    // tables → labelled row cards
+    main.querySelectorAll('table').forEach(table => {
       const heads = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim());
       if (!heads.length) return;
-      table.classList.add('kh-cards');
+      addClass(table, 'kh-cards');
+      const wrap = table.parentElement;
+      addClass(wrap, 'kh-table-wrap');
+      addClass(wrap, 'kh-table-bare');
+      if (/rounded/.test(wrap.className) && /(^|\s)(bg-white|bg-surface-container-lowest)(\s|$)/.test(wrap.className)) addClass(wrap, 'kh-table-card');
+      if (wrap.parentElement && wrap.parentElement !== main && wrap.parentElement.tagName === 'DIV') addClass(wrap.parentElement, 'kh-table-bare');
       table.querySelectorAll('tbody tr').forEach(tr => {
-        [...tr.children].forEach((td, i) => {
-          if (td.hasAttribute('colspan') || !heads[i]) return;
-          if (td.getAttribute('data-label') !== heads[i]) td.setAttribute('data-label', heads[i]);
-        });
+        const cells = tr.children;
+        for (let i = 0; i < cells.length; i++) {
+          const td = cells[i];
+          if (td.hasAttribute('colspan')) { addClass(tr, 'kh-span'); continue; }
+          if (heads[i] && td.getAttribute('data-label') !== heads[i]) td.setAttribute('data-label', heads[i]);
+        }
+        const last = tr.lastElementChild;
+        if (last && last.querySelector('button, a')) addClass(last, 'kh-actions');
       });
     });
+
+    // single-column card grids → two-up
+    main.querySelectorAll('.grid').forEach(grid => {
+      if (grid.querySelector('input, select, textarea')) return;
+      const kids = [...grid.children];
+      if (kids.some(k => /col-span/.test(k.className))) return;
+      if (grid.classList.contains('grid-cols-1') && CARD_GRID.test(grid.className)) addClass(grid, 'kh-two-up');
+      else if (grid.classList.contains('grid-cols-2') && kids.length && kids.every(hasPadding)) addClass(grid, 'kh-two-up-compact');
+    });
+
+    // stacked link/button tiles (dashboard quick actions…) → two-up
+    main.querySelectorAll('.flex.flex-col').forEach(col => {
+      const tiles = [...col.children].filter(k => (k.tagName === 'A' || k.tagName === 'BUTTON') && /rounded/.test(k.className) && hasPadding(k));
+      if (tiles.length >= 2) addClass(col, 'kh-tiles');
+    });
   };
-  let labelQueued = false;
-  const queueLabels = () => {
-    if (labelQueued) return;
-    labelQueued = true;
-    requestAnimationFrame(() => { labelQueued = false; labelTables(); });
+
+  let decorateQueued = false;
+  const queueDecorate = () => {
+    if (decorateQueued) return;
+    decorateQueued = true;
+    setTimeout(() => { decorateQueued = false; decorate(); }, 60);
   };
-  const startLabels = () => {
-    labelTables();
+  const startDecorate = () => {
+    decorate();
     const main = document.querySelector('main');
-    if (main) new MutationObserver(queueLabels).observe(main, { childList: true, subtree: true });
+    if (main) new MutationObserver(queueDecorate).observe(main, { childList: true, subtree: true });
   };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startLabels);
-  else startLabels();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startDecorate);
+  else startDecorate();
 })();
