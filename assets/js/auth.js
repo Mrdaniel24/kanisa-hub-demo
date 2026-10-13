@@ -233,7 +233,9 @@ async function initPageGuard() {
       return null;
     }
 
-    const profile = await getUserProfile(true);
+    // Cached profile/permissions let the page show at once; re-checked below.
+    const cached = getCachedGuard(session.user.id);
+    const profile = cached ? cached.profile : await getUserProfile(true);
 
     if (!profile) {
       await supabase.auth.signOut();
@@ -267,13 +269,15 @@ async function initPageGuard() {
 
     // Hide nav items the user has no permission for
     if (profile.role === 'admin') {
-      const perms = await getAdminPermissions();
+      const perms = (cached && cached.permissions !== undefined) ? cached.permissions : await getAdminPermissions();
       applyNavPermissions(perms);
     }
 
     requestAnimationFrame(() => {
       document.body.style.opacity = '1';
     });
+
+    if (cached) revalidateGuardCache(cached);
 
     // WhatsApp prompt — show on first visit after login if not yet set
     if ((profile.role === 'admin' || profile.role === 'super_admin') && !profile.whatsapp) {
@@ -413,8 +417,12 @@ document.addEventListener('click', async (event) => {
 /**
  * Keep cache fresh on auth changes
  */
-supabase.auth.onAuthStateChange((_event) => {
-  clearProfileCache?.();
+supabase.auth.onAuthStateChange((event) => {
+  // This also fires on every page load (INITIAL_SESSION) and on token
+  // refreshes — those don't change who is signed in, so keep the caches.
+  if (event === 'INITIAL_SESSION' || event === 'TOKEN_REFRESHED') return;
+  const userChanged = event === 'SIGNED_OUT' || event === 'USER_UPDATED';
+  clearProfileCache?.({ persisted: userChanged });
 });
 
 /**

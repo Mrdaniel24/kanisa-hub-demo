@@ -112,11 +112,73 @@ async function getCurrentUser() {
 }
 
 /**
- * Clear cached profile
+ * Cross-page guard cache (sessionStorage)
+ *
+ * Every portal page used to stay hidden while it re-fetched the profile and
+ * admin permissions — two sequential Supabase round-trips on each sidebar
+ * click. Pages now show straight away from this cache and re-check in the
+ * background (see revalidateGuardCache). Data access is still enforced by
+ * Supabase RLS; this only decides what the UI shows.
  */
-function clearProfileCache() {
+const GUARD_CACHE_KEY = 'kh-guard-cache';
+const GUARD_CACHE_MS = 10 * 60 * 1000;
+
+function readGuardCache(userId) {
+  try {
+    const c = JSON.parse(sessionStorage.getItem(GUARD_CACHE_KEY) || 'null');
+    if (c && c.userId === userId && Date.now() - c.at < GUARD_CACHE_MS) return c;
+  } catch (e) { /* storage blocked or corrupt — fall back to the network */ }
+  return null;
+}
+
+function writeGuardCache(userId, patch) {
+  try {
+    const prev = readGuardCache(userId) || {};
+    sessionStorage.setItem(GUARD_CACHE_KEY, JSON.stringify({ ...prev, ...patch, userId, at: Date.now() }));
+  } catch (e) { /* ignore */ }
+}
+
+/**
+ * Clear cached profile
+ * @param {{ persisted?: boolean }} opts persisted:false keeps the cross-page cache
+ */
+function clearProfileCache(opts = {}) {
   __profileCache = null;
   __profileCacheAt = 0;
+  if (opts.persisted !== false) {
+    try { sessionStorage.removeItem(GUARD_CACHE_KEY); } catch (e) { /* ignore */ }
+  }
+}
+
+/**
+ * Cached profile + permissions for the signed-in user, or null.
+ * Also warms the in-memory profile cache so page scripts don't refetch.
+ */
+function getCachedGuard(userId) {
+  const c = readGuardCache(userId);
+  if (!c || !c.profile) return null;
+  __profileCache = c.profile;
+  __profileCacheAt = Date.now();
+  return { profile: c.profile, permissions: 'permissions' in c ? c.permissions : undefined };
+}
+
+/**
+ * Re-fetch profile/permissions after a page was shown from cache.
+ * If anything that affects access changed, reload so the guard re-runs.
+ */
+async function revalidateGuardCache(cached) {
+  try {
+    const fresh = await getUserProfile(true);
+    if (!fresh) return;   // offline / transient error — keep the page, re-check on next navigation
+    const isAdmin = fresh.role === 'admin' || fresh.role === 'super_admin';
+    const freshPerms = isAdmin ? await getAdminPermissions() : null;
+    if (isAdmin && !freshPerms) return;
+    const key = (p, perms) => JSON.stringify([p.role, p.status, p.department_id, perms || null]);
+    const cachedPerms = cached.permissions === undefined ? freshPerms : cached.permissions;
+    if (key(fresh, freshPerms) !== key(cached.profile, cachedPerms)) location.reload();
+  } catch (e) {
+    console.warn('Guard revalidation failed:', e);
+  }
 }
 
 /**
@@ -147,6 +209,7 @@ async function getUserProfile(forceRefresh = false) {
 
     __profileCache = data || null;
     __profileCacheAt = now;
+    if (data) writeGuardCache(session.user.id, { profile: data });
 
     return __profileCache;
   } catch (error) {
@@ -179,8 +242,10 @@ async function getAdminPermissions() {
     const profile = await getUserProfile();
     if (!profile) return null;
 
+    const remember = perms => { writeGuardCache(session.user.id, { permissions: perms }); return perms; };
+
     if (profile.role === 'super_admin') {
-      return {
+      return remember({
         all: true,
         role: 'super_admin',
         admin_id: session.user.id,
@@ -194,7 +259,7 @@ async function getAdminPermissions() {
         can_manage_sermons: true,
         can_manage_departments: true,
         can_view_reports: true,
-      };
+      });
     }
 
     if (profile.role !== 'admin') {
@@ -224,12 +289,12 @@ async function getAdminPermissions() {
     };
 
     if (error) {
-      if (error.code === 'PGRST116') return PERM_DEFAULTS;
+      if (error.code === 'PGRST116') return remember(PERM_DEFAULTS);
       console.error('Permissions fetch error:', error.message);
       return null;
     }
 
-    return { ...PERM_DEFAULTS, ...data, all: false, role: profile.role };
+    return remember({ ...PERM_DEFAULTS, ...data, all: false, role: profile.role });
   } catch (error) {
     console.error('getAdminPermissions exception:', error);
     return null;
@@ -456,3 +521,5 @@ window.escapeHtml = escapeHtml;
 window.getInitials = getInitials;
 window.generateFileName = generateFileName;
 window.clearProfileCache = clearProfileCache;
+window.getCachedGuard = getCachedGuard;
+window.revalidateGuardCache = revalidateGuardCache;

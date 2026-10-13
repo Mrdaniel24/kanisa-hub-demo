@@ -21,12 +21,15 @@ function hasAccess(userRole, requiredRole) {
 window.__blbPermissions = null;
 
 async function initPageGuard() {
-  document.body.style.opacity = '0';
-
   const session = await getSession();
   if (!session) { _redirect('/public/login.html'); return null; }
 
-  const profile = await getUserProfile();
+  // Show the page from the cross-page cache when we have it; otherwise stay
+  // hidden while the profile loads (first page after login / cache expired).
+  const cached = getCachedGuard(session.user.id);
+  if (!cached) document.body.style.opacity = '0';
+
+  const profile = cached ? cached.profile : await getUserProfile();
   if (!profile) { _redirect('/public/login.html'); return null; }
 
   if (profile.status !== 'active') {
@@ -45,7 +48,7 @@ async function initPageGuard() {
   // ── Permission check (admin pages only) ──────────────────────────────────
   let permissions = null;
   if (profile.role === 'admin' || profile.role === 'super_admin') {
-    permissions = await getAdminPermissions();
+    permissions = (cached && cached.permissions !== undefined) ? cached.permissions : await getAdminPermissions();
     window.__blbPermissions = permissions;
 
     // Block page if body declares a required permission and user lacks it
@@ -69,6 +72,8 @@ async function initPageGuard() {
       && window.location.pathname.includes('/member/')) {
     _showAdminBackBanner(profile.role);
   }
+
+  if (cached) revalidateGuardCache(cached);   // background re-check, reloads if access changed
 
   // Attach permissions to profile so page scripts can read profile.permissions
   profile.permissions = permissions;
