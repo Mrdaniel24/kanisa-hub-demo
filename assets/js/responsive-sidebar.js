@@ -63,13 +63,14 @@
     btn.addEventListener('click', toggleSidebar);
   });
 
-  // ── Close sidebar when clicking nav links (mobile) ──
+  // ── Close sidebar when clicking in-page links (mobile) ──
+  // Links to another page are left alone: the next page opens with the
+  // sidebar already closed, and animating it shut here only competed with
+  // the navigation on slower phones.
   sidebar.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
-      if (window.innerWidth < 768 && isOpen) {
-        // Small delay so the user sees the active state
-        setTimeout(closeSidebar, 150);
-      }
+      const href = link.getAttribute('href') || '';
+      if (window.innerWidth < 768 && isOpen && href.startsWith('#')) closeSidebar();
     });
   });
 

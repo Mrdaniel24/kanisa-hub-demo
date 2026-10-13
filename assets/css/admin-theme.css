@@ -7,7 +7,17 @@
    Pairs with assets/js/admin-tw-config.js and
    assets/js/admin-layout.js.
    ============================================ */
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800;6..12,900&display=swap');
+/* Nunito Sans is linked in each page's <head> (an @import here would be a
+   second, chained render-blocking request). */
+
+/* Pages start hidden until the auth guard runs; when the tab already has the
+   signed-in user cached, the <head> script adds .kh-ready and we paint at once. */
+html.kh-ready body { opacity: 1 !important; transition: none !important; }
+
+/* Smooth page-to-page navigation in browsers that support it (Chrome/Edge 126+). */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .18s; }
+#sidebar { view-transition-name: kh-sidebar; }
 
 :root {
   --kh-sidebar:      #3d5650;
