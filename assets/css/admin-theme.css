@@ -457,6 +457,105 @@ body > header.sticky,
 .members-stat--dark { background: var(--kh-sidebar); color: rgba(255,255,255,.75); }
 .members-stat--dark b { color: var(--kh-gold); }
 
+/* ─── Phones: two-up cards ───
+   Card grids that stack one per row on phones go two per row instead.
+   Layout grids (col-span children) and form grids keep a single column. */
+@media (max-width: 767px) {
+  .main-responsive .grid.grid-cols-1:is(
+      [class*="sm:grid-cols-2"], [class*="md:grid-cols-2"], [class*="md:grid-cols-3"], [class*="md:grid-cols-4"],
+      [class*="lg:grid-cols-3"], [class*="lg:grid-cols-4"], [class*="xl:grid-cols-3"], [class*="xl:grid-cols-4"]):not(:has(> [class*="col-span"])):not(:has(input, select, textarea)) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .75rem !important;
+  }
+  .main-responsive .grid.grid-cols-1:is(
+      [class*="sm:grid-cols-2"], [class*="md:grid-cols-2"], [class*="md:grid-cols-3"], [class*="md:grid-cols-4"],
+      [class*="lg:grid-cols-3"], [class*="lg:grid-cols-4"], [class*="xl:grid-cols-3"], [class*="xl:grid-cols-4"]):not(:has(> [class*="col-span"])):not(:has(input, select, textarea)) > * {
+    min-width: 0;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 1rem !important;
+    border-radius: 16px !important;
+    overflow-wrap: anywhere;
+  }
+  /* grids that were already two-up get the same compact tiles */
+  .main-responsive .grid.grid-cols-2:not(:has(input, select, textarea)) > [class*="p-"] {
+    min-width: 0; padding: 1rem !important; border-radius: 16px !important; overflow-wrap: anywhere;
+  }
+  .main-responsive .grid.grid-cols-2 > * .text-3xl,
+  .main-responsive .grid.grid-cols-2 > * .text-4xl { font-size: 1.35rem !important; line-height: 1.2 !important; }
+  /* stacked link/button tiles (dashboard quick actions…) → two-up as well */
+  .main-responsive .flex.flex-col:has(> :is(a, button)[class*="rounded"][class*="p-"] ~ :is(a, button)[class*="rounded"][class*="p-"]) {
+    display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem !important;
+  }
+  .main-responsive .flex.flex-col:has(> :is(a, button)[class*="rounded"][class*="p-"] ~ :is(a, button)[class*="rounded"][class*="p-"]) > :is(a, button) {
+    min-width: 0; padding: 1rem !important; border-radius: 16px !important; overflow-wrap: anywhere;
+  }
+  .main-responsive .flex.flex-col:has(> :is(a, button)[class*="rounded"][class*="p-"] ~ :is(a, button)[class*="rounded"][class*="p-"]) > :is(a, button):last-child:nth-child(odd) {
+    grid-column: 1 / -1;   /* an odd last tile fills the row instead of leaving a gap */
+  }
+  /* wide "feature" tiles inside those grids still span the full row */
+  .main-responsive .grid > [class*="lg:col-span-2"]:only-child { grid-column: 1 / -1; }
+  .main-responsive .grid.grid-cols-1 > * h3.text-3xl,
+  .main-responsive .grid.grid-cols-1 > * .text-3xl,
+  .main-responsive .grid.grid-cols-1 > * .text-4xl { font-size: 1.35rem !important; line-height: 1.2 !important; }
+  .main-responsive .grid.grid-cols-1 > * .text-xl { font-size: 1rem !important; }
+  .main-responsive .grid.grid-cols-1 > * p.uppercase,
+  .main-responsive .grid.grid-cols-1 > * .tracking-widest { letter-spacing: .06em !important; }
+
+  /* tables: every row becomes a small card, two per row */
+  .main-responsive table.kh-cards,
+  .main-responsive table.kh-cards tbody { display: block; width: 100%; }
+  .main-responsive table.kh-cards thead { display: none; }
+  .main-responsive table.kh-cards tbody {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem;
+  }
+  .main-responsive table.kh-cards tbody tr {
+    display: flex; flex-direction: column; gap: .5rem;
+    min-width: 0;
+    padding: .85rem;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid var(--kh-line) !important;
+    box-shadow: 0 6px 18px -12px rgba(31, 52, 47, .35);
+  }
+  .main-responsive table.kh-cards tbody tr:has(> td[colspan]) { grid-column: 1 / -1; }
+  .main-responsive table.kh-cards tbody td {
+    display: block;
+    padding: 0 !important;
+    border: 0 !important;
+    background: none !important;
+    white-space: normal;
+    font-size: .78rem;
+    text-align: left !important;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .main-responsive table.kh-cards tbody td[data-label]:not(:first-child)::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: .1rem;
+    font-size: .58rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--kh-muted);
+  }
+  .main-responsive table.kh-cards tbody td:first-child {
+    padding-bottom: .55rem !important;
+    border-bottom: 1px dashed var(--kh-line) !important;
+  }
+  .main-responsive table.kh-cards tbody td:first-child .flex { flex-direction: column; align-items: flex-start; gap: .4rem; }
+  .main-responsive table.kh-cards tbody td [class*="max-w-"] { max-width: 100% !important; }
+  .main-responsive table.kh-cards tbody td:last-child:has(button, a) { margin-top: auto; padding-top: .35rem !important; }
+  .main-responsive table.kh-cards tbody td:last-child button,
+  .main-responsive table.kh-cards tbody td:last-child a { width: 100%; justify-content: center; }
+  .main-responsive table.kh-cards tbody tr:hover td { background: none !important; }
+
+  /* the white card around a table steps back so the row cards stand alone */
+  .main-responsive div:has(> table.kh-cards),
+  .main-responsive div:has(> div > table.kh-cards) {
+    background: transparent !important; box-shadow: none !important;
+    padding: 0 !important; overflow: visible !important;
+  }
+}
+
 /* ─── Forms & buttons ─── */
 .main-responsive input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
 .main-responsive select,

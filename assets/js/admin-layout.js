@@ -107,7 +107,7 @@
   function syncUser() {
     const txt = nameEl.textContent;
     document.querySelectorAll('[data-kh-role]').forEach(el => { el.textContent = roleEl.textContent; });
-    if (!txt || txt === 'Loading…') return;
+    if (!txt || /…$/.test(txt)) return;   // still the placeholder ("Loading…" or a translation of it)
     document.querySelectorAll('[data-kh-name]').forEach(el => { el.textContent = txt; });
     document.querySelectorAll('[data-kh-initials]').forEach(el => { el.textContent = initialsOf(txt); });
   }
@@ -127,4 +127,35 @@
     if (top) top.innerHTML = `<img src="${img.src}" alt="">`;
   }).observe(img, { attributes: true, attributeFilter: ['src'] });
   img.addEventListener('error', () => { img.hidden = true; });
+
+  /* ── Tables → two-up cards on phones ──
+     Each <td> gets data-label from its column header so the CSS can show
+     "DEPARTMENT / Kwaya Kuu" pairs once the header row is hidden. Rows are
+     rendered by page scripts after data loads, so re-label on changes. */
+  const labelTables = () => {
+    document.querySelectorAll('main table').forEach(table => {
+      const heads = [...table.querySelectorAll('thead th')].map(th => th.textContent.trim());
+      if (!heads.length) return;
+      table.classList.add('kh-cards');
+      table.querySelectorAll('tbody tr').forEach(tr => {
+        [...tr.children].forEach((td, i) => {
+          if (td.hasAttribute('colspan') || !heads[i]) return;
+          if (td.getAttribute('data-label') !== heads[i]) td.setAttribute('data-label', heads[i]);
+        });
+      });
+    });
+  };
+  let labelQueued = false;
+  const queueLabels = () => {
+    if (labelQueued) return;
+    labelQueued = true;
+    requestAnimationFrame(() => { labelQueued = false; labelTables(); });
+  };
+  const startLabels = () => {
+    labelTables();
+    const main = document.querySelector('main');
+    if (main) new MutationObserver(queueLabels).observe(main, { childList: true, subtree: true });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startLabels);
+  else startLabels();
 })();
