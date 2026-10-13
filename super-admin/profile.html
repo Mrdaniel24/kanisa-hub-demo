@@ -569,6 +569,7 @@ async function saveProfile(e) {
 /* ── Save password ── */
 async function savePassword(e) {
   e.preventDefault();
+  if ((currentProfile?.email || '').endsWith('@kanisahub.demo')) { Toast.error('Password za akaunti za demo haziwezi kubadilishwa.'); return; }
   const newPwd  = document.getElementById('pwd-new').value;
   const confPwd = document.getElementById('pwd-confirm').value;
   if (!newPwd)             { Toast.error('Enter a new password.'); return; }
