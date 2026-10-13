@@ -20,14 +20,14 @@
     #blb-chat-btn {
       position: fixed; bottom: 24px; right: 24px; z-index: 9999;
       width: 56px; height: 56px; border-radius: 50%;
-      background: #fed01b; border: none; cursor: pointer;
-      box-shadow: 0 4px 20px rgba(0,35,111,0.35);
+      background: #d4a72c; border: none; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(61,86,80,0.35);
       display: flex; align-items: center; justify-content: center;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    #blb-chat-btn:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(0,35,111,0.45); }
+    #blb-chat-btn:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(61,86,80,0.45); }
     #blb-chat-btn .material-symbols-outlined {
-      font-size: 26px; color: #00236f; font-variation-settings: 'FILL' 1;
+      font-size: 26px; color: #3d5650; font-variation-settings: 'FILL' 1;
     }
     #blb-chat-badge {
       position: absolute; top: -3px; right: -3px;
@@ -40,7 +40,7 @@
       width: 360px; max-width: calc(100vw - 32px);
       height: 540px; max-height: calc(100vh - 110px);
       background: #fff; border-radius: 20px;
-      box-shadow: 0 8px 40px rgba(0,35,111,0.22);
+      box-shadow: 0 8px 40px rgba(61,86,80,0.22);
       display: flex; flex-direction: column; overflow: hidden;
       transform: scale(0.88) translateY(16px); opacity: 0;
       transform-origin: bottom right;
@@ -49,24 +49,24 @@
     }
     #blb-chat-panel.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
     .blb-hdr {
-      background: #00236f; padding: 14px 16px;
+      background: #3d5650; padding: 14px 16px;
       display: flex; align-items: center; gap: 11px; flex-shrink: 0;
     }
     .blb-hdr-avatar {
       width: 38px; height: 38px; border-radius: 50%;
-      background: #fed01b; display: flex; align-items: center;
+      background: #d4a72c; display: flex; align-items: center;
       justify-content: center; flex-shrink: 0;
     }
     .blb-hdr-avatar .material-symbols-outlined {
-      font-size: 20px; color: #00236f; font-variation-settings: 'FILL' 1;
+      font-size: 20px; color: #3d5650; font-variation-settings: 'FILL' 1;
     }
     .blb-hdr-info { flex: 1; min-width: 0; }
     .blb-hdr-title {
-      font-family: 'Inter', sans-serif; font-size: 0.9rem;
+      font-family: 'Nunito Sans', sans-serif; font-size: 0.9rem;
       font-weight: 800; color: #fff; margin: 0; letter-spacing: -0.01em;
     }
     .blb-hdr-sub {
-      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.7rem;
+      font-family: 'Nunito Sans', sans-serif; font-size: 0.7rem;
       color: rgba(255,255,255,0.65); margin: 2px 0 0;
     }
     .blb-hdr-close {
@@ -83,24 +83,24 @@
     #blb-msgs::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
     .blb-msg {
       max-width: 82%; word-break: break-word;
-      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.855rem; line-height: 1.55;
+      font-family: 'Nunito Sans', sans-serif; font-size: 0.855rem; line-height: 1.55;
     }
     .blb-msg.bot {
-      align-self: flex-start; background: #f0f4ff; color: #1a1c1c;
+      align-self: flex-start; background: #eef4f2; color: #26332f;
       padding: 10px 13px; border-radius: 16px 16px 16px 4px;
     }
     .blb-msg.user {
-      align-self: flex-end; background: #00236f; color: #fff;
+      align-self: flex-end; background: #3d5650; color: #fff;
       padding: 10px 13px; border-radius: 16px 16px 4px 16px;
     }
     .blb-msg.typing {
-      align-self: flex-start; background: #f0f4ff;
+      align-self: flex-start; background: #eef4f2;
       padding: 12px 16px; border-radius: 16px 16px 16px 4px;
     }
     .blb-dots { display: flex; gap: 5px; align-items: center; height: 16px; }
     .blb-dots span {
       width: 7px; height: 7px; border-radius: 50%;
-      background: #00236f; opacity: 0.35; animation: blbBounce 1.2s infinite;
+      background: #3d5650; opacity: 0.35; animation: blbBounce 1.2s infinite;
     }
     .blb-dots span:nth-child(2) { animation-delay: 0.2s; }
     .blb-dots span:nth-child(3) { animation-delay: 0.4s; }
@@ -117,42 +117,42 @@
     #blb-actions::-webkit-scrollbar { display: none; }
     .blb-chip {
       display: flex; align-items: center; gap: 4px;
-      background: #fff; border: 1.5px solid #dde3ff; border-radius: 20px;
-      padding: 5px 11px; font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.75rem; font-weight: 600; color: #00236f;
+      background: #fff; border: 1.5px solid #dbe7e3; border-radius: 20px;
+      padding: 5px 11px; font-family: 'Nunito Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 600; color: #3d5650;
       cursor: pointer; white-space: nowrap; flex-shrink: 0;
       transition: background 0.15s, border-color 0.15s, transform 0.1s;
     }
-    .blb-chip:hover  { background: #f0f4ff; border-color: #00236f; }
+    .blb-chip:hover  { background: #eef4f2; border-color: #3d5650; }
     .blb-chip:active { transform: scale(0.95); }
     /* ── Map button inside chat ── */
     .blb-map-btn {
       display: inline-flex; align-items: center; gap: 7px;
       margin-top: 10px; padding: 9px 16px;
-      background: #00236f; color: #fff !important;
+      background: #3d5650; color: #fff !important;
       border-radius: 20px; font-size: 0.8rem; font-weight: 700;
       text-decoration: none !important; cursor: pointer; border: none;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Nunito Sans', sans-serif;
       transition: background 0.15s, transform 0.1s;
     }
-    .blb-map-btn:hover  { background: #1e3a8a; }
+    .blb-map-btn:hover  { background: #4d6a63; }
     .blb-map-btn:active { transform: scale(0.95); }
     .blb-map-btn .material-symbols-outlined { font-size: 16px; }
     /* ── Contact cards inside chat ── */
     .blb-contact-card {
-      background: #fff; border: 1.5px solid #e0e7ff; border-radius: 12px;
+      background: #fff; border: 1.5px solid #dbe7e3; border-radius: 12px;
       padding: 10px 12px; margin-top: 6px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Nunito Sans', sans-serif;
     }
     .blb-contact-card-title {
-      font-size: 0.78rem; font-weight: 700; color: #00236f; margin: 0 0 4px;
+      font-size: 0.78rem; font-weight: 700; color: #3d5650; margin: 0 0 4px;
     }
     .blb-contact-card-role {
-      font-size: 0.72rem; color: #757682; margin: 0 0 6px;
+      font-size: 0.72rem; color: #8a9a95; margin: 0 0 6px;
     }
     .blb-contact-link {
       display: flex; align-items: center; gap: 5px;
-      font-size: 0.78rem; color: #1e3a8a; text-decoration: none;
+      font-size: 0.78rem; color: #4d6a63; text-decoration: none;
       font-weight: 600; margin-bottom: 2px;
     }
     .blb-contact-link .material-symbols-outlined { font-size: 14px; }
@@ -164,20 +164,20 @@
     }
     #blb-input {
       flex: 1; border: 1.5px solid #e5e7eb; border-radius: 12px;
-      padding: 9px 13px; font-family: 'Plus Jakarta Sans', sans-serif;
+      padding: 9px 13px; font-family: 'Nunito Sans', sans-serif;
       font-size: 0.855rem; resize: none; outline: none;
       line-height: 1.45; transition: border-color 0.15s;
-      max-height: 96px; overflow-y: auto; background: #fff; color: #1a1c1c;
+      max-height: 96px; overflow-y: auto; background: #fff; color: #26332f;
     }
-    #blb-input:focus { border-color: #00236f; }
+    #blb-input:focus { border-color: #3d5650; }
     #blb-input::placeholder { color: #9ca3af; }
     #blb-send {
       width: 38px; height: 38px; border-radius: 50%; border: none;
-      background: #00236f; cursor: pointer; flex-shrink: 0;
+      background: #3d5650; cursor: pointer; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       transition: background 0.15s, transform 0.1s;
     }
-    #blb-send:hover   { background: #1e3a8a; }
+    #blb-send:hover   { background: #4d6a63; }
     #blb-send:active  { transform: scale(0.9); }
     #blb-send:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
     #blb-send .material-symbols-outlined { font-size: 18px; color: #fff; display: block; }

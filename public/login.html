@@ -7,59 +7,19 @@
   <meta name="description" content="Sign in to your Kanisa Hub member portal. Access your dashboard, contributions, and community updates.">
   
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800;6..12,900&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   
   <!-- TailwindCSS CDN -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "primary": "#00236f",
-            "primary-container": "#1e3a8a",
-            "on-primary": "#ffffff",
-            "on-primary-container": "#90a8ff",
-            "secondary": "#735c00",
-            "secondary-container": "#fed01b",
-            "on-secondary": "#ffffff",
-            "on-secondary-container": "#6f5900",
-            "secondary-fixed": "#ffe083",
-            "on-secondary-fixed": "#231b00",
-            "surface": "#f9f9f9",
-            "surface-container-low": "#f3f3f4",
-            "surface-container-lowest": "#ffffff",
-            "surface-container": "#eeeeee",
-            "surface-container-high": "#e8e8e8",
-            "on-surface": "#1a1c1c",
-            "on-surface-variant": "#444651",
-            "outline-variant": "#c5c5d3",
-            "outline": "#757682",
-            "error": "#ba1a1a",
-            "on-error": "#ffffff",
-            "error-container": "#ffdad6",
-            "inverse-surface": "#2f3131",
-            "inverse-on-surface": "#f0f1f1",
-          },
-          fontFamily: {
-            "headline": ["Inter"],
-            "body": ["Plus Jakarta Sans"],
-            "label": ["Plus Jakarta Sans"]
-          },
-          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
-        },
-      },
-    }
-  </script>
+  <script src="../assets/js/admin-tw-config.js"></script>
   
   <!-- Shared Styles -->
   <link rel="stylesheet" href="../assets/css/shared.css"/>
   
   <style>
     .login-bg {
-      background: linear-gradient(135deg, #00236f 0%, #1e3a8a 40%, #264191 70%, #4059aa 100%);
+      background: linear-gradient(135deg, #3d5650 0%, #4d6a63 40%, #4d6a63 70%, #557770 100%);
     }
     .login-card {
       backdrop-filter: blur(20px);
@@ -69,15 +29,15 @@
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .input-field:focus {
-      border-color: #fed01b;
-      box-shadow: 0 0 0 3px rgba(254, 208, 27, 0.2);
+      border-color: #d4a72c;
+      box-shadow: 0 0 0 3px rgba(212,167,44, 0.2);
     }
     .btn-primary-login {
-      background: linear-gradient(135deg, #fed01b, #eec200);
+      background: linear-gradient(135deg, #d4a72c, #c9a032);
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
     .btn-primary-login:hover {
-      box-shadow: 0 8px 24px rgba(254, 208, 27, 0.3);
+      box-shadow: 0 8px 24px rgba(212,167,44, 0.3);
     }
     .btn-primary-login:active {
       transform: scale(0.97);
@@ -90,6 +50,7 @@
       50% { transform: translateY(-20px); }
     }
   </style>
+  <link rel="stylesheet" href="../assets/css/auth-split.css"/>
 </head>
 
 <body class="min-h-screen login-bg flex items-center justify-center p-4 md:p-8">
@@ -102,7 +63,41 @@
   </div>
 
   <!-- Login Card -->
-  <div class="login-card relative z-10 bg-white/95 rounded-[2rem] shadow-2xl w-full max-w-md overflow-hidden">
+  <div class="auth-card login-card relative z-10 bg-white/95 rounded-[2rem] shadow-2xl w-full max-w-md lg:max-w-5xl overflow-hidden">
+    <!-- Brand panel (large screens only) -->
+    <aside class="auth-panel" aria-hidden="true">
+      <div>
+        <div class="auth-panel__brand">
+          <span class="auth-panel__logo"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">church</span></span>
+          <span><b>Kanisa Hub</b><small>Kanisa la Neema</small></span>
+        </div>
+        <div class="auth-panel__headline">
+          <p class="auth-panel__eyebrow">The Digital Sanctuary</p>
+          <h2>Your church,<br><span>connected.</span></h2>
+          <p>Giving, sermons, events and fellowship for the whole congregation, together in one place.</p>
+        </div>
+        <div class="auth-panel__features">
+          <div class="auth-panel__feature">
+            <span class="material-symbols-outlined">volunteer_activism</span>
+            <span><b>Give with ease</b><span>Tithes and offerings via mobile money</span></span>
+          </div>
+          <div class="auth-panel__feature">
+            <span class="material-symbols-outlined">auto_stories</span>
+            <span><b>Never miss the Word</b><span>Sermons and announcements anytime</span></span>
+          </div>
+          <div class="auth-panel__feature">
+            <span class="material-symbols-outlined">diversity_3</span>
+            <span><b>Stay close to your ministry</b><span>Events and group chats for every department</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="auth-panel__foot">
+        <span>© 2026 Kanisa Hub</span>
+        <span>Powered by <a href="https://www.focustec.co.tz" target="_blank" rel="noopener">FocusTec</a></span>
+      </div>
+    </aside>
+
+    <div class="auth-form">
     
     <!-- Header Section -->
     <div class="px-10 pt-12 pb-8 text-center">
@@ -125,9 +120,9 @@
         <span class="material-symbols-outlined text-base">science</span> Akaunti za Demo · Bonyeza kuingia · Password: Demo@2026
       </p>
       <div class="grid grid-cols-3 gap-2">
-        <button type="button" data-demo="superadmin@kanisahub.demo" class="demo-btn py-2 px-1 rounded-lg leading-tight break-all bg-primary text-white text-xs font-bold hover:opacity-90"><span class="block">Super Admin</span><span class="block text-[9px] font-medium opacity-80 normal-case">superadmin@kanisahub.demo</span></button>
-        <button type="button" data-demo="admin@kanisahub.demo" class="demo-btn py-2 px-1 rounded-lg leading-tight break-all bg-primary/80 text-white text-xs font-bold hover:opacity-90"><span class="block">Admin</span><span class="block text-[9px] font-medium opacity-80 normal-case">admin@kanisahub.demo</span></button>
-        <button type="button" data-demo="member@kanisahub.demo" class="demo-btn py-2 px-1 rounded-lg leading-tight break-all bg-primary/60 text-white text-xs font-bold hover:opacity-90"><span class="block">Mshirika</span><span class="block text-[9px] font-medium opacity-80 normal-case">member@kanisahub.demo</span></button>
+        <button type="button" data-demo="superadmin@kanisahub.demo" class="demo-btn py-2 px-1 rounded-lg leading-tight bg-primary text-white text-xs font-bold hover:opacity-90"><span class="block">Super Admin</span><span class="block text-[9px] font-medium opacity-80 normal-case break-all">superadmin@kanisahub.demo</span></button>
+        <button type="button" data-demo="admin@kanisahub.demo" class="demo-btn py-2 px-1 rounded-lg leading-tight bg-primary/80 text-white text-xs font-bold hover:opacity-90"><span class="block">Admin</span><span class="block text-[9px] font-medium opacity-80 normal-case break-all">admin@kanisahub.demo</span></button>
+        <button type="button" data-demo="member@kanisahub.demo" class="demo-btn py-2 px-1 rounded-lg leading-tight bg-primary/60 text-white text-xs font-bold hover:opacity-90"><span class="block">Mshirika</span><span class="block text-[9px] font-medium opacity-80 normal-case break-all">member@kanisahub.demo</span></button>
       </div>
     </div>
     <script>
@@ -233,6 +228,7 @@
         ← Back to Homepage
       </a>
     </div>
+    </div><!-- /.auth-form -->
   </div>
 
   <!-- Supabase CDN -->

@@ -6,49 +6,22 @@
   <title>Register | Kanisa Hub — Join the Sanctuary</title>
   <meta name="description" content="Join Kanisa Hub community. Create your member account to access events, sermons, and stay connected.">
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800;6..12,900&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            primary: "#00236f",
-            "primary-container": "#1e3a8a",
-            secondary: "#735c00",
-            "secondary-container": "#fed01b",
-            surface: "#f9f9f9",
-            "surface-container-low": "#f3f3f4",
-            "surface-container-high": "#e8e8e8",
-            "on-surface": "#1a1c1c",
-            "on-surface-variant": "#444651",
-            "outline-variant": "#c5c5d3",
-            outline: "#757682",
-            error: "#ba1a1a",
-            "error-container": "#ffdad6"
-          },
-          fontFamily: {
-            headline: ["Inter", "sans-serif"],
-            body: ["Plus Jakarta Sans", "sans-serif"]
-          }
-        }
-      }
-    };
-  </script>
+  <script src="../assets/js/admin-tw-config.js"></script>
 
   <style>
     .register-bg {
-      background: linear-gradient(135deg, #00236f 0%, #1e3a8a 50%, #264191 100%);
+      background: linear-gradient(135deg, #3d5650 0%, #4d6a63 50%, #4d6a63 100%);
     }
     .input-field {
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .input-field:focus {
-      border-color: #fed01b !important;
-      box-shadow: 0 0 0 3px rgba(254, 208, 27, 0.2) !important;
+      border-color: #d4a72c !important;
+      box-shadow: 0 0 0 3px rgba(212,167,44, 0.2) !important;
     }
     .step-circle {
       width: 2.25rem;
@@ -60,12 +33,12 @@
       font-size: 0.85rem;
       font-weight: 700;
       transition: all 0.2s ease;
-      background: #e8e8e8;
-      color: #444651;
+      background: #e3eae7;
+      color: #5f706b;
     }
     .step-circle.active {
-      background: #fed01b;
-      color: #231b00;
+      background: #d4a72c;
+      color: #2a1f00;
     }
     .step-circle.completed {
       background: #22c55e;
@@ -74,12 +47,13 @@
     .step-line {
       width: 3rem;
       height: 1px;
-      background: rgba(117, 118, 130, 0.3);
+      background: rgba(138,154,149, 0.3);
     }
     .hidden-step {
       display: none;
     }
   </style>
+  <link rel="stylesheet" href="../assets/css/auth-split.css"/>
 </head>
 <body class="min-h-screen register-bg flex items-center justify-center p-4 md:p-8 font-body">
 
@@ -88,7 +62,41 @@
     <div class="absolute bottom-[10%] left-[10%] w-64 h-64 bg-yellow-300/10 rounded-full blur-3xl"></div>
   </div>
 
-  <div class="relative z-10 bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-2xl w-full max-w-2xl overflow-hidden">
+  <div class="auth-card auth-card--wide relative z-10 bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-2xl w-full max-w-2xl lg:max-w-6xl overflow-hidden">
+    <!-- Brand panel (large screens only) -->
+    <aside class="auth-panel" aria-hidden="true">
+      <div>
+        <div class="auth-panel__brand">
+          <span class="auth-panel__logo"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">church</span></span>
+          <span><b>Kanisa Hub</b><small>Kanisa la Neema</small></span>
+        </div>
+        <div class="auth-panel__headline">
+          <p class="auth-panel__eyebrow">The Digital Sanctuary</p>
+          <h2>Your church,<br><span>connected.</span></h2>
+          <p>Giving, sermons, events and fellowship for the whole congregation, together in one place.</p>
+        </div>
+        <div class="auth-panel__features">
+          <div class="auth-panel__feature">
+            <span class="material-symbols-outlined">volunteer_activism</span>
+            <span><b>Give with ease</b><span>Tithes and offerings via mobile money</span></span>
+          </div>
+          <div class="auth-panel__feature">
+            <span class="material-symbols-outlined">auto_stories</span>
+            <span><b>Never miss the Word</b><span>Sermons and announcements anytime</span></span>
+          </div>
+          <div class="auth-panel__feature">
+            <span class="material-symbols-outlined">diversity_3</span>
+            <span><b>Stay close to your ministry</b><span>Events and group chats for every department</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="auth-panel__foot">
+        <span>© 2026 Kanisa Hub</span>
+        <span>Powered by <a href="https://www.focustec.co.tz" target="_blank" rel="noopener">FocusTec</a></span>
+      </div>
+    </aside>
+
+    <div class="auth-form">
     <div class="px-6 sm:px-10 pt-10 pb-6 text-center">
       <div class="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg">
         <span class="material-symbols-outlined text-yellow-300 text-2xl" style="font-variation-settings:'FILL' 1;">person_add</span>
@@ -96,7 +104,7 @@
       <h1 class="font-headline text-2xl sm:text-3xl font-extrabold text-primary tracking-tight mb-1">
         Join The Sanctuary
       </h1>
-      <p class="text-sm text-[color:#444651]">
+      <p class="text-sm text-[color:#5f706b]">
         Create your Kanisa Hub member account
       </p>
     </div>
@@ -119,29 +127,29 @@
     <form id="register-form" class="px-6 sm:px-10 pb-4" novalidate>
       <div id="step-1" class="space-y-4">
         <div>
-          <label for="full_name" class="block text-[11px] font-bold text-[color:#444651] uppercase tracking-widest mb-2">Full Name *</label>
-          <input id="full_name" name="full_name" type="text" required class="input-field w-full bg-[color:#f3f3f4] border border-[color:#c5c5d3] rounded-xl py-3.5 px-4 text-sm" placeholder="Enter your full name" />
+          <label for="full_name" class="block text-[11px] font-bold text-[color:#5f706b] uppercase tracking-widest mb-2">Full Name *</label>
+          <input id="full_name" name="full_name" type="text" required class="input-field w-full bg-[color:#eef4f2] border border-[color:#cfdad6] rounded-xl py-3.5 px-4 text-sm" placeholder="Enter your full name" />
         </div>
 
         <div>
-          <label for="reg-email" class="block text-[11px] font-bold text-[color:#444651] uppercase tracking-widest mb-2">Email Address *</label>
-          <input id="reg-email" name="email" type="email" required autocomplete="email" class="input-field w-full bg-[color:#f3f3f4] border border-[color:#c5c5d3] rounded-xl py-3.5 px-4 text-sm" placeholder="you@example.com" />
+          <label for="reg-email" class="block text-[11px] font-bold text-[color:#5f706b] uppercase tracking-widest mb-2">Email Address *</label>
+          <input id="reg-email" name="email" type="email" required autocomplete="email" class="input-field w-full bg-[color:#eef4f2] border border-[color:#cfdad6] rounded-xl py-3.5 px-4 text-sm" placeholder="you@example.com" />
         </div>
 
         <div>
-          <label for="phone" class="block text-[11px] font-bold text-[color:#444651] uppercase tracking-widest mb-2">Phone Number</label>
-          <input id="phone" name="phone" type="tel" class="input-field w-full bg-[color:#f3f3f4] border border-[color:#c5c5d3] rounded-xl py-3.5 px-4 text-sm" placeholder="+255 700 000 000" />
+          <label for="phone" class="block text-[11px] font-bold text-[color:#5f706b] uppercase tracking-widest mb-2">Phone Number</label>
+          <input id="phone" name="phone" type="tel" class="input-field w-full bg-[color:#eef4f2] border border-[color:#cfdad6] rounded-xl py-3.5 px-4 text-sm" placeholder="+255 700 000 000" />
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="reg-password" class="block text-[11px] font-bold text-[color:#444651] uppercase tracking-widest mb-2">Password *</label>
-            <input id="reg-password" name="password" type="password" required minlength="6" class="input-field w-full bg-[color:#f3f3f4] border border-[color:#c5c5d3] rounded-xl py-3.5 px-4 text-sm" placeholder="Min 6 characters" />
+            <label for="reg-password" class="block text-[11px] font-bold text-[color:#5f706b] uppercase tracking-widest mb-2">Password *</label>
+            <input id="reg-password" name="password" type="password" required minlength="6" class="input-field w-full bg-[color:#eef4f2] border border-[color:#cfdad6] rounded-xl py-3.5 px-4 text-sm" placeholder="Min 6 characters" />
           </div>
 
           <div>
-            <label for="confirm-password" class="block text-[11px] font-bold text-[color:#444651] uppercase tracking-widest mb-2">Confirm Password *</label>
-            <input id="confirm-password" name="confirm_password" type="password" required minlength="6" class="input-field w-full bg-[color:#f3f3f4] border border-[color:#c5c5d3] rounded-xl py-3.5 px-4 text-sm" placeholder="Repeat password" />
+            <label for="confirm-password" class="block text-[11px] font-bold text-[color:#5f706b] uppercase tracking-widest mb-2">Confirm Password *</label>
+            <input id="confirm-password" name="confirm_password" type="password" required minlength="6" class="input-field w-full bg-[color:#eef4f2] border border-[color:#cfdad6] rounded-xl py-3.5 px-4 text-sm" placeholder="Repeat password" />
           </div>
         </div>
 
@@ -154,8 +162,8 @@
       <div id="step-2" class="space-y-4 hidden-step">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="gender" class="block text-[11px] font-bold text-[color:#444651] uppercase tracking-widest mb-2">Gender</label>
-            <select id="gender" name="gender" class="input-field w-full bg-[color:#f3f3f4] border border-[color:#c5c5d3] rounded-xl py-3.5 px-4 text-sm">
+            <label for="gender" class="block text-[11px] font-bold text-[color:#5f706b] uppercase tracking-widest mb-2">Gender</label>
+            <select id="gender" name="gender" class="input-field w-full bg-[color:#eef4f2] border border-[color:#cfdad6] rounded-xl py-3.5 px-4 text-sm">
               <option value="">Select</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
@@ -163,8 +171,8 @@
           </div>
 
           <div>
-            <label for="marital_status" class="block text-[11px] font-bold text-[color:#444651] uppercase tracking-widest mb-2">Marital Status</label>
-            <select id="marital_status" name="marital_status" class="input-field w-full bg-[color:#f3f3f4] border border-[color:#c5c5d3] rounded-xl py-3.5 px-4 text-sm">
+            <label for="marital_status" class="block text-[11px] font-bold text-[color:#5f706b] uppercase tracking-widest mb-2">Marital Status</label>
+            <select id="marital_status" name="marital_status" class="input-field w-full bg-[color:#eef4f2] border border-[color:#cfdad6] rounded-xl py-3.5 px-4 text-sm">
               <option value="">Select</option>
               <option value="single">Single</option>
               <option value="married">Married</option>
@@ -175,29 +183,29 @@
         </div>
 
         <div>
-          <label for="date_of_birth" class="block text-[11px] font-bold text-[color:#444651] uppercase tracking-widest mb-2">Date of Birth</label>
-          <input id="date_of_birth" name="date_of_birth" type="date" class="input-field w-full bg-[color:#f3f3f4] border border-[color:#c5c5d3] rounded-xl py-3.5 px-4 text-sm" />
+          <label for="date_of_birth" class="block text-[11px] font-bold text-[color:#5f706b] uppercase tracking-widest mb-2">Date of Birth</label>
+          <input id="date_of_birth" name="date_of_birth" type="date" class="input-field w-full bg-[color:#eef4f2] border border-[color:#cfdad6] rounded-xl py-3.5 px-4 text-sm" />
         </div>
 
         <div>
-          <label for="department_id" class="block text-[11px] font-bold text-[color:#444651] uppercase tracking-widest mb-2">Ministry / Department</label>
-          <select id="department_id" name="department_id" class="input-field w-full bg-[color:#f3f3f4] border border-[color:#c5c5d3] rounded-xl py-3.5 px-4 text-sm">
+          <label for="department_id" class="block text-[11px] font-bold text-[color:#5f706b] uppercase tracking-widest mb-2">Ministry / Department</label>
+          <select id="department_id" name="department_id" class="input-field w-full bg-[color:#eef4f2] border border-[color:#cfdad6] rounded-xl py-3.5 px-4 text-sm">
             <option value="">Loading ministries...</option>
           </select>
         </div>
 
         <div>
-          <label for="address" class="block text-[11px] font-bold text-[color:#444651] uppercase tracking-widest mb-2">Residential Address</label>
-          <input id="address" name="address" type="text" class="input-field w-full bg-[color:#f3f3f4] border border-[color:#c5c5d3] rounded-xl py-3.5 px-4 text-sm" placeholder="Your home address" />
+          <label for="address" class="block text-[11px] font-bold text-[color:#5f706b] uppercase tracking-widest mb-2">Residential Address</label>
+          <input id="address" name="address" type="text" class="input-field w-full bg-[color:#eef4f2] border border-[color:#cfdad6] rounded-xl py-3.5 px-4 text-sm" placeholder="Your home address" />
         </div>
 
         <div class="flex flex-col sm:flex-row gap-3 mt-2">
-          <button type="button" id="prev-step-btn" class="sm:flex-1 py-3.5 rounded-xl border-2 border-[color:#c5c5d3] text-primary font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors">
+          <button type="button" id="prev-step-btn" class="sm:flex-1 py-3.5 rounded-xl border-2 border-[color:#cfdad6] text-primary font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors">
             <span class="material-symbols-outlined text-lg">arrow_back</span>
             Back
           </button>
 
-          <button type="submit" id="register-btn" class="sm:flex-[2] py-3.5 rounded-xl bg-[color:#fed01b] text-[color:#6f5900] font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2">
+          <button type="submit" id="register-btn" class="sm:flex-[2] py-3.5 rounded-xl bg-[color:#d4a72c] text-[color:#5c4510] font-bold text-sm uppercase tracking-widest flex items-center justify-center gap-2">
             <span id="register-btn-text">Create Account</span>
             <span id="register-btn-spinner" class="hidden">
               <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -211,11 +219,12 @@
     </form>
 
     <div class="px-6 sm:px-10 pb-8 pt-2 text-center">
-      <p class="text-sm text-[color:#444651]">
+      <p class="text-sm text-[color:#5f706b]">
         Already have an account?
         <a href="login.html" class="text-primary font-bold hover:underline">Sign In</a>
       </p>
     </div>
+    </div><!-- /.auth-form -->
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -243,6 +252,8 @@
     }
 
     function showDebug(message, type = 'info') {
+      // progress/success notes are for developers only; visitors just see real problems
+      if (type !== 'error') { console.debug('[register]', message); return; }
       debugEl.classList.remove('hidden');
       if (type === 'error') {
         debugEl.className = 'mx-6 sm:mx-10 mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-[12px] text-red-700 font-mono';
