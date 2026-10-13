@@ -1,9 +1,10 @@
 /* ============================================
-   Kanisa Hub — Admin Theme (Tailwind config)
+   Kanisa Hub — Theme (Tailwind config)
 
-   Shared by every admin page. Load right after
-   the Tailwind CDN script. Change brand colours
-   here once instead of in every page.
+   Read by tailwind.config.js when building
+   assets/css/tailwind.css — pages no longer load
+   this file. Change brand colours here once,
+   then run `npm run build:css`.
 
    The blue / indigo / slate / yellow / amber scales
    are remapped onto the theme so hard-coded

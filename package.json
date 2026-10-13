@@ -1,0 +1,15 @@
+{
+  "name": "kanisa-hub-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kanisa Hub by FocusTec — demo. Static site; npm is only used to build the Tailwind CSS.",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i assets/css/tailwind.src.css -o assets/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i assets/css/tailwind.src.css -o assets/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.9",
+    "tailwindcss": "^3.4.17"
+  }
+}
